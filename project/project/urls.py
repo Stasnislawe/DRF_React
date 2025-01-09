@@ -15,18 +15,39 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.generic import TemplateView
 from rest_framework import routers
 from django.conf.urls.static import static
 from django.conf import settings
 from api_app.views import BookSerializerView
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import permissions
 
-router = routers.DefaultRouter()
-router.register(r'book', BookSerializerView)
+schema_view = get_schema_view(  # new
+    openapi.Info(
+        title="Snippets API",
+        default_version='v1',
+        description="Swagger description",
+    ),
+    # url=f'{settings.APP_URL}/api/v3/',
+    patterns=[path('', include('api_app.urls')), ],
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 
 urlpatterns = [
+    path('swagger-ui/', TemplateView.as_view(
+            template_name='swaggerui/swaggerui.html',
+            extra_context={'schema_url': 'openapi-schema'}
+        ),
+        name='swagger-ui'),
+    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    path('', include('api_app.urls'))
 ]
 
 if settings.DEBUG:
