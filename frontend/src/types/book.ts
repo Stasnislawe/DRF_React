@@ -7,3 +7,18 @@ export interface Book {
   cover: string;
   author: string;
 }
+
+export interface BookPart {
+  id: number;
+  title_part: string;
+  text_part: string;
+  part_number: number;
+  page_count: number;
+}
+
+export interface Author {
+  id: number;
+  name: string;
+  bio: string;
+  photo: string;
+}
