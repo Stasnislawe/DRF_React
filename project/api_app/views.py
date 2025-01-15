@@ -1,7 +1,23 @@
-from .models import Book
-from .serializer import BookSerializer
+from .models import Book, BookPart, Author
+from .serializer import BookSerializer, BookPartSerializer, AuthorSerializer
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+
+
+class AuthorSerializerView(viewsets.ModelViewSet):
+    serializer_class = AuthorSerializer
+
+    def get_queryset(self):
+        qs = self.kwargs['book_author']
+        return Author.objects.filter(book_author=qs)
+
+
+class BookPartSerializerView(viewsets.ModelViewSet):
+    serializer_class = BookPartSerializer
+
+    def get_queryset(self):
+        qs = self.kwargs['part_number']
+        return BookPart.objects.filter(part_number=qs)
 
 
 # Вью для DRF --> вывод всех объектов модели Book
