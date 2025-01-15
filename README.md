@@ -25,7 +25,7 @@
 <p>создаем виртуальную среду</p>
 <p>устанавливаем все зависимости - pip install -r requirements.txt</p>
 <p>далее переходим в корневую папку бэкэнд части - cd project</p>
-<p>делаем миграцию - python manage.py migrate</p>
+<p>делаем миграцию - python manage.py makemigrations, python manage.py migrate</p>
 <p>запускаем сервер - python manage.py runserver</p>
 <h3>Терминал для реакт</h3>
 <p>переходим в папку фронтенда - cd frontend</p>
