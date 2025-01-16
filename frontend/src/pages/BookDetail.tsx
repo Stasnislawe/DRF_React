@@ -11,7 +11,7 @@ export function BookDetail() {
   const { book, loading, error } = useBook(Number(id));
 
   if (loading || !book) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center">Загрузка...</div>;
   }
 
   return (
@@ -29,7 +29,7 @@ export function BookDetail() {
           className="absolute top-4 left-4 text-white flex items-center gap-2 hover:text-gray-200 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
-          Back to Library
+          Обратно в библиотеку
         </button>
         
         <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
