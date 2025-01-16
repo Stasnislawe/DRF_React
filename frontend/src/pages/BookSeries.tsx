@@ -69,13 +69,13 @@ export function BookSeries() {
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           {series.map((part) => {
-            const isRead = readParts.includes(part.id);
+            const isRead = readParts.includes(part.part_id);
             const accessible = isPartAccessible(part.part_id);
 
             return (
               <div
-                key={part.id}
-                onClick={() => accessible && navigate(`/book/${id}/books/${part.id}`)}
+                key={part.part_id}
+                onClick={() => accessible && navigate(`/book/${id}/books/${part.part_id}`)}
                 className={`p-6 border-b ${accessible ? 'cursor-pointer hover:bg-gray-50' : 'opacity-50'} transition-colors`}
               >
                 <div className="flex justify-between items-center">
