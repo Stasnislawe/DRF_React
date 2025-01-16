@@ -14,6 +14,8 @@ class AuthorSerializerView(viewsets.ModelViewSet):
 
 class BookPartSerializerView(viewsets.ModelViewSet):
     serializer_class = BookPartSerializer
+    queryset = BookPart.objects.all()
+    lookup_field = 'part_id'
 
     def get_queryset(self):
         qs = self.kwargs['part_number']
