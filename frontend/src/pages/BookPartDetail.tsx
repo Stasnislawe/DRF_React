@@ -1,40 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBookPart } from '../api/books';
-import { BookPart } from '../types/book';
+import { useBookPartDetail } from '../hooks/useBookPartDetail';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 export function BookPartDetail() {
   const { id, partId } = useParams<{ id: string; partId: string }>();
   const navigate = useNavigate();
-  const [part, setPart] = useState<BookPart | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchPart = async () => {
-      try {
-        if (id && partId) {
-          const data = await getBookPart(id, partId);
-          setPart(data);
-          // Mark this part as read
-          const readParts = JSON.parse(localStorage.getItem(`book-${id}-read-parts`) || '[]');
-          if (!readParts.includes(partId)) {
-            readParts.push(partId);
-            localStorage.setItem(`book-${id}-read-parts`, JSON.stringify(readParts));
-          }
-        }
-      } catch (error) {
-        navigate(`/book/${id}/authors`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPart();
-  }, [id, partId]);
+  const { part, loading } = useBookPartDetail(id, partId);
 
   if (loading || !part) {
-    return <div className="min-h-screen flex items-center justify-center">Загрузка...</div>;
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
   return (
