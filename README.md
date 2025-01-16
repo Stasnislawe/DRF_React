@@ -34,8 +34,12 @@
 <p>запускаем фронт - npm run dev</p>
 <p>заходим на - http://localhost:5173/</p>
 <img src="https://github.com/user-attachments/assets/b227c21b-f57c-4b44-a754-e890ec8ddb04">
-<p>можно нажать на книгу для чтения ее текста</p>
-<img src="https://github.com/user-attachments/assets/6856c954-cd96-4d18-afc5-c61bade406aa">
+<p>можно нажать на книгу для просмотра ее частей</p>
+<p>начать чтение можно только с первой части, после перехода и прочтения второй части, вторая часть в списке частей будет доступна к открытию, со следующими так же.</p>
+<img src="">
+<p>после прочтения последней части при нажатии на кнопку "перейти дальше" пользователь будет перенаправляться к списку авторов этой книги</p>
+<img src="https://github.com/user-attachments/assets/020aed93-f062-488d-b7af-d1c4aab6afd9">
+<!-- <img src="https://github.com/user-attachments/assets/6856c954-cd96-4d18-afc5-c61bade406aa"> -->
 <p>для добавления или изменения данных переходим на - http://127.0.0.1:8000/book/</p>
 <p>документация сваггер - http://127.0.0.1:8000/swagger-ui/</p>
 <img src="https://github.com/user-attachments/assets/eaec7407-bb41-4668-a5c7-f80e08907c29">
