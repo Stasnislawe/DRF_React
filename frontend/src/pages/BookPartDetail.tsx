@@ -34,7 +34,7 @@ export function BookPartDetail() {
   }, [id, partId]);
 
   if (loading || !part) {
-    return <div className="min-h-screen flex items-center justify-center">Загрузка</div>;
+    return <div className="min-h-screen flex items-center justify-center">Загрузка...</div>;
   }
 
   return (
