@@ -1,38 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBookSeries } from '../api/books';
-import { BookPart } from '../types/book';
-import { ArrowLeft, BookOpen, Lock, CheckCircle } from 'lucide-react';
+import { useBookSeries } from '../hooks/useBookSeries';
+import { BookOpen, Lock, CheckCircle, ArrowLeft } from 'lucide-react';
 
 export function BookSeries() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [series, setSeries] = useState<BookPart[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [readParts, setReadParts] = useState<string[]>([]);
-
-  useEffect(() => {
-    const fetchSeries = async () => {
-      try {
-        if (id) {
-          const data = await getBookSeries(id);
-          setSeries(data);
-          // Get read parts from localStorage
-          const storedReadParts = JSON.parse(localStorage.getItem(`book-${id}-read-parts`) || '[]');
-          setReadParts(storedReadParts);
-        }
-      } catch (error) {
-        setError('Failed to fetch book series');
-        // If there are no parts, redirect to authors page
-        navigate(`/book/${id}/authors`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSeries();
-  }, [id, navigate]);
+  const { series, loading, error, readParts } = useBookSeries(id);
 
   if (loading) {
     return (
@@ -40,20 +14,22 @@ export function BookSeries() {
         <div className="animate-spin mr-2">
           <BookOpen className="w-6 h-6" />
         </div>
-        <span>Загрузка серий</span>
+        <span>Loading series...</span>
       </div>
     );
   }
 
   if (error) {
-    return null; // The navigation will handle the redirect
+    // Redirect to authors page if there are no parts
+    navigate(`/book/${id}/authors`);
+    return null;
   }
 
-  const isPartAccessible = (partId: number) => {
+  const isPartAccessible = (partNumber: number) => {
     // First part is always accessible
-    if (partId === 1) return true;
+    if (partNumber === 1) return true;
     // Check if previous part has been read
-    return readParts.includes((partId - 1).toString());
+    return readParts.includes((partNumber - 1).toString());
   };
 
   return (
@@ -64,7 +40,7 @@ export function BookSeries() {
           className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8"
         >
           <ArrowLeft className="w-5 h-5" />
-          Назад
+          Back
         </button>
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -83,8 +59,7 @@ export function BookSeries() {
                     <h2 className="text-2xl font-bold text-gray-900 mb-2">
                       {part.title_part}
                     </h2>
-                    <p className="text-gray-600">Часть {part.part_id}</p>
-                    <p className="text-gray-600">{part.page_count} страниц</p>
+                    <p className="text-gray-600">Part {part.part_id}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     {isRead && <CheckCircle className="w-5 h-5 text-green-500" />}
