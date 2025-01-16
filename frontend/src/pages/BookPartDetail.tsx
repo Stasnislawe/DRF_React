@@ -16,9 +16,14 @@ export function BookPartDetail() {
         if (id && partId) {
           const data = await getBookPart(id, partId);
           setPart(data);
+          // Mark this part as read
+          const readParts = JSON.parse(localStorage.getItem(`book-${id}-read-parts`) || '[]');
+          if (!readParts.includes(partId)) {
+            readParts.push(partId);
+            localStorage.setItem(`book-${id}-read-parts`, JSON.stringify(readParts));
+          }
         }
       } catch (error) {
-//         setError('Failed to fetch book part:', error));
         navigate(`/book/${id}/authors`);
       } finally {
         setLoading(false);
@@ -29,7 +34,7 @@ export function BookPartDetail() {
   }, [id, partId]);
 
   if (loading || !part) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center">Загрузка</div>;
   }
 
   return (
