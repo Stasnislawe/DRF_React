@@ -28,7 +28,7 @@ export function BookAuthors() {
   }, [id]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center">Загрузка...</div>;
   }
 
   return (
@@ -39,7 +39,7 @@ export function BookAuthors() {
           className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8"
         >
           <ArrowLeft className="w-5 h-5" />
-          Back
+          Назад к списку частей
         </button>
 
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Authors</h1>
