@@ -14,7 +14,7 @@ export function BookList() {
         <div className="animate-spin mr-2">
           <BookOpen className="w-6 h-6" />
         </div>
-        <span>Loading books...</span>
+        <span>Загрузка книг...</span>
       </div>
     );
   }
@@ -30,7 +30,7 @@ export function BookList() {
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Library</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-8">Библиотека</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {books.map((book) => (
             <BookCard key={book.id} book={book} />
