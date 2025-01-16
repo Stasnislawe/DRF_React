@@ -22,7 +22,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('book/<int:book_author>/authors', author_book),
     path('book/<int:part_number>/books', book_part),
-    path('book/<int:part_number>/books/<int:pk>', BookPartSerializerView.as_view({
+    path('book/<int:part_number>/books/<int:part_id>', BookPartSerializerView.as_view({
         'get': 'retrieve',
         'put': 'update',
         'delete': 'destroy',
