@@ -1,8 +1,7 @@
 import { Book, BookPart, Author } from '../types/book';
-import { USE_MOCK_DATA } from '../config';
+import { USE_MOCK_DATA, API_BASE_URL } from '../config';
 import { mockBooks, mockBookSeries, mockAuthors } from '../mocks/books';
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
 
 export async function getBooks(): Promise<Book[]> {
   if (USE_MOCK_DATA) {
