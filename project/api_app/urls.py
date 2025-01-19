@@ -1,6 +1,6 @@
 from django.urls import include, path
 from rest_framework import routers
-from .views import BookSerializerView, BookPartSerializerView, AuthorSerializerView
+from .views import BookSerializerView, BookPartSerializerView, AuthorSerializerView, Logout, RegisterView
 
 router = routers.DefaultRouter()
 router.register(r'book', BookSerializerView)
@@ -20,6 +20,8 @@ author_book = AuthorSerializerView.as_view({
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('logout/', Logout.as_view(), name='logout'),
+    path('register/', RegisterView.as_view(), name='register'),
     path('book/<int:book_author>/authors', author_book),
     path('book/<int:part_number>/books', book_part),
     path('book/<int:part_number>/books/<int:part_id>', BookPartSerializerView.as_view({
