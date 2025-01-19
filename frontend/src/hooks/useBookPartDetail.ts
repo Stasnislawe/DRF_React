@@ -5,6 +5,7 @@ import { BookPart } from '../types/book';
 export function useBookPartDetail(id: string | undefined, partId: string | undefined) {
   const [part, setPart] = useState<BookPart | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPart = async () => {
@@ -21,6 +22,8 @@ export function useBookPartDetail(id: string | undefined, partId: string | undef
         }
       } catch (error) {
         console.error('Failed to fetch book part:', error);
+        setError('Failed to fetch book part');
+        setPart(null);
       } finally {
         setLoading(false);
       }
@@ -29,5 +32,5 @@ export function useBookPartDetail(id: string | undefined, partId: string | undef
     fetchPart();
   }, [id, partId]);
 
-  return { part, loading };
+  return { part, loading, error };
 }
