@@ -1,7 +1,8 @@
 import React from 'react';
 import { Clock, Calendar } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Book } from '../types/book';
+import { authService } from '../services/auth';
 
 interface BookCardProps {
   book: Book;
@@ -9,11 +10,21 @@ interface BookCardProps {
 
 export function BookCard({ book }: BookCardProps) {
   const navigate = useNavigate();
+  const location = useLocation();
   const formattedDate = new Date(book.added_at).toLocaleDateString();
+
+  const handleBookClick = () => {
+    if (!authService.isAuthenticated()) {
+      // Save the intended destination
+      navigate('/login', { state: { from: `/book/${book.id}/books` } });
+    } else {
+      navigate(`/book/${book.id}/books`);
+    }
+  };
 
   return (
     <div
-      onClick={() => navigate(`/book/${book.id}/books/`)}
+      onClick={handleBookClick}
       className="relative group cursor-pointer overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-105"
     >
       <div className="absolute inset-0">
@@ -24,7 +35,7 @@ export function BookCard({ book }: BookCardProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20" />
       </div>
-      
+
       <div className="relative p-6 h-full flex flex-col justify-end">
         <h3 className="text-2xl font-bold text-white mb-2">{book.title}</h3>
         <p className="text-gray-200 mb-4 min-h-28 max-h-35">{book.text}</p>
