@@ -5,19 +5,52 @@ import { BookDetail } from './pages/BookDetail';
 import { BookSeries } from './pages/BookSeries';
 import { BookPartDetail } from './pages/BookPartDetail';
 import { BookAuthors } from './pages/BookAuthors';
+import { Navbar } from './components/Navbar';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { AuthGuard } from './components/AuthGuard';
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<BookList />} />
-        <Route path="/book/:id" element={<BookDetail />} />
-        <Route path="/book/:id/books" element={<BookSeries />} />
-        <Route path="/book/:id/books/:partId" element={<BookPartDetail />} />
-        <Route path="/book/:id/authors/" element={<BookAuthors />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/book/:id"
+          element={
+            <AuthGuard>
+              <BookDetail />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/book/:id/books"
+          element={
+            <AuthGuard>
+              <BookSeries />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/book/:id/books/:partId"
+          element={
+            <AuthGuard>
+              <BookPartDetail />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/book/:id/authors"
+          element={
+            <AuthGuard>
+              <BookAuthors />
+            </AuthGuard>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;
