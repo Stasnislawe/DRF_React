@@ -2,16 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getBook } from '../api/books';
 import { Book } from '../types/book';
-import { useBook } from '../hooks/useBook';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 
 export function BookDetail() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { book, loading, error } = useBook(Number(id));
+  const [book, setBook] = useState<Book | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        if (id) {
+          const data = await getBook(id);
+          setBook(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch book:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBook();
+  }, [id]);
 
   if (loading || !book) {
-    return <div className="min-h-screen flex items-center justify-center">Загрузка...</div>;
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
   return (
@@ -23,13 +40,13 @@ export function BookDetail() {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-        
+
         <button
-          onClick={() => navigate(`/`)}
+          onClick={() => navigate(-1)}
           className="absolute top-4 left-4 text-white flex items-center gap-2 hover:text-gray-200 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
-          Обратно в библиотеку
+          Back to Library
         </button>
         
         <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
