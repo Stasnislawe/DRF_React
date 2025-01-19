@@ -21,7 +21,7 @@ export function BookSeries() {
 
   if (error) {
     // Redirect to authors page if there are no parts
-    navigate(`/book/${id}/authors`);
+//     navigate(`/book/${id}/authors`);
     return null;
   }
 
