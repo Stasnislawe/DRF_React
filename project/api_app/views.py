@@ -1,7 +1,8 @@
+from django.http import Http404
 from rest_framework.permissions import IsAuthenticated
 from .models import Book, BookPart, Author
 from .serializer import BookSerializer, BookPartSerializer, AuthorSerializer, UserSerializer
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -38,6 +39,7 @@ class AuthorSerializerView(viewsets.ModelViewSet):
 
 
 class BookPartSerializerView(viewsets.ModelViewSet):
+    # permission_classes = (IsAuthenticated,)
     serializer_class = BookPartSerializer
     queryset = BookPart.objects.all()
     lookup_field = 'part_id'
@@ -47,13 +49,46 @@ class BookPartSerializerView(viewsets.ModelViewSet):
         return BookPart.objects.filter(part_number=qs)
 
 
-# Вью для DRF --> вывод всех объектов модели Book
-class BookSerializerView(viewsets.ModelViewSet):
+class BookFreeDetailSerializerView(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def retrieve(self, request, *args, **kwargs):
+        free_param = self.kwargs.get('free')
+        book = self.get_object()
+
+        if free_param == 'True' and not book.book_free:
+            return Response({"detail": 'Книга не доступна'}, status=status.HTTP_404_NOT_FOUND)
+        elif free_param == 'False' and book.book_free:
+            return Response({"detail": 'Книга доступна бесплатно'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(book)
+        return Response(serializer.data)
+        # return Response(f'{book.book_free}')
+
+
+# Вью для DRF --> вывод всех объектов модели Book
+class BookSerializerView(generics.ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+        free_param = self.kwargs.get('free', None)
+
+        if free_param == 'True':
+            return Book.objects.filter(book_free=True)
+        elif free_param == 'False':
+            return Book.objects.filter(book_free=False)
+        else:
+            return Book.objects.all()
+
+    # def get_queryset(self):
+    #     if self.request.path == '/book/True/':
+    #         # book_free = self.kwargs['book_free']
+    #         return Book.objects.filter(book_free=True)
+    #     elif self.request.path == 'book/False/':
+    #         return Book.objects.filter(book_free=False)
+    #     return self.queryset.all()
 
     def create(self, request, *args, **kwargs):
         if self.action == 'create':
