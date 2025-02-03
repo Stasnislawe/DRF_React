@@ -26,6 +26,7 @@ class Book(models.Model):
     text = models.CharField(verbose_name='Краткое описание чтобы заинтересовать читателя', max_length=120)
     cover = models.ImageField(upload_to='cover/%Y/%m/%d/', verbose_name='Обложка книги')
     author = models.ManyToManyField(Author, related_name='book_author', verbose_name='Автор книги')
+    book_free = models.BooleanField(default=False, verbose_name='Просмотр незарегестированным')
 
 
 class BookPart(models.Model):
