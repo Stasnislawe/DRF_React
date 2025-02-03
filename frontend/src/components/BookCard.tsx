@@ -14,11 +14,13 @@ export function BookCard({ book }: BookCardProps) {
   const formattedDate = new Date(book.added_at).toLocaleDateString();
 
   const handleBookClick = () => {
-    if (!authService.isAuthenticated()) {
+    if (book.book_free) {
       // Save the intended destination
+      navigate(`/book/${book.id}/books`);
+    } else if (!authService.isAuthenticated()) {
       navigate('/login', { state: { from: `/book/${book.id}/books` } });
     } else {
-      navigate(`/book/${book.id}/books`);
+      navigate(`/book/${book.id}/books`)
     }
   };
 
