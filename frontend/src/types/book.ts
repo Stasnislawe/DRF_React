@@ -6,6 +6,7 @@ export interface Book {
   text: string;
   cover: string;
   author: string;
+  book_free: boolean;
 }
 
 export interface BookPart {
