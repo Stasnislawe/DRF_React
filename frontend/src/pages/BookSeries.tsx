@@ -7,6 +7,8 @@ export function BookSeries() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { series, loading, error, readParts } = useBookSeries(id);
+//   console.log(id);
+//   console.log(useBookSeries(id));
 
   if (loading) {
     return (
