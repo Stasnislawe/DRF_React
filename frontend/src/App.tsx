@@ -6,6 +6,7 @@ import { BookSeries } from './pages/BookSeries';
 import { BookPartDetail } from './pages/BookPartDetail';
 import { BookAuthors } from './pages/BookAuthors';
 import { Navbar } from './components/Navbar';
+import { Profile } from './pages/Profile';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { AuthGuard } from './components/AuthGuard';
@@ -19,10 +20,10 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
-          path="/book/:id"
+          path="/profile"
           element={
             <AuthGuard>
-              <BookDetail />
+              <Profile />
             </AuthGuard>
           }
         />
