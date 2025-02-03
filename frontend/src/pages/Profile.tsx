@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Book } from '../types/book';
 import { getBooks, getBookSeries } from '../api/books';
-import { BookOpen, ArrowLeft, Percent, LogOut, User } from 'lucide-react';
+import { BookOpen, ArrowLeft, Percent, LogOut, User, Moon, Sun } from 'lucide-react';
 import { authService } from '../services/auth';
+import { useTheme } from '../context/ThemeContext';
 
 interface BookProgress {
   book: Book;
@@ -18,6 +19,7 @@ export function Profile() {
   const [readBooks, setReadBooks] = useState<BookProgress[]>([]);
   const [loading, setLoading] = useState(true);
   const username = localStorage.getItem('username');
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = async () => {
     try {
@@ -62,7 +64,7 @@ export function Profile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 dark:text-white">
         <div className="animate-spin mr-2">
           <BookOpen className="w-6 h-6" />
         </div>
@@ -72,42 +74,60 @@ export function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/')}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
             >
               <ArrowLeft className="w-5 h-5" />
               Back to Library
             </button>
           </div>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
-          >
-            <LogOut className="w-5 h-5" />
-            <span>Logout</span>
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={toggleTheme}
+              className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            >
+              {theme === 'dark' ? (
+                <>
+                  <Sun className="w-5 h-5" />
+                  <span>Light Mode</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-5 h-5" />
+                  <span>Dark Mode</span>
+                </>
+              )}
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+            >
+              <LogOut className="w-5 h-5" />
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
           <div className="flex items-center gap-3">
-            <User className="w-8 h-8 text-gray-400" />
+            <User className="w-8 h-8 text-gray-400 dark:text-gray-500" />
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">{username || 'User'}</h2>
-              <p className="text-gray-500">Reading Progress</p>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{username || 'User'}</h2>
+              <p className="text-gray-500 dark:text-gray-400">Reading Progress</p>
             </div>
           </div>
         </div>
 
         {readBooks.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-            <BookOpen className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-            <h2 className="text-2xl font-semibold text-gray-900 mb-2">No books read yet</h2>
-            <p className="text-gray-600">Start reading to track your progress!</p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+            <BookOpen className="w-12 h-12 mx-auto text-gray-400 dark:text-gray-500 mb-4" />
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">No books read yet</h2>
+            <p className="text-gray-600 dark:text-gray-400">Start reading to track your progress!</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -115,7 +135,7 @@ export function Profile() {
               <div
                 key={book.id}
                 onClick={() => navigate(`/book/${book.id}/books`)}
-                className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
               >
                 <div className="relative h-48">
                   <img
@@ -132,8 +152,8 @@ export function Profile() {
                   </div>
                 </div>
                 <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{book.title}</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{book.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-400">
                     {readParts} of {totalParts} parts read
                   </p>
                 </div>
