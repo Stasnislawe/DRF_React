@@ -12,6 +12,7 @@ export function useBookPartDetail(id: string | undefined, partId: string | undef
       try {
         if (id && partId) {
           const data = await getBookPart(id, partId);
+//           console.log(getBookPart(id, partId));
           setPart(data);
           // Mark this part as read
           const readParts = JSON.parse(localStorage.getItem(`book-${id}-read-parts`) || '[]');
@@ -32,5 +33,6 @@ export function useBookPartDetail(id: string | undefined, partId: string | undef
     fetchPart();
   }, [id, partId]);
 
+//   console.log(part);
   return { part, loading, error };
 }

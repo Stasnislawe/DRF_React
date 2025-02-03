@@ -13,6 +13,7 @@ export function useBookSeries(id: string | undefined) {
       try {
         if (id) {
           const data = await getBookSeries(id);
+//           console.log(getBookSeries(id));
           setSeries(data);
           // Get read parts from localStorage
           const storedReadParts = JSON.parse(localStorage.getItem(`book-${id}-read-parts`) || '[]');
