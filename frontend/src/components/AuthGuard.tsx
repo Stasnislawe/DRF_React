@@ -19,8 +19,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
       if (id) {
         try {
           const book = await getBook(id);
-          const isBookFree = book[0].book_free;
-          setIsFreeBook(isBookFree);
+          setIsFreeBook(book.book_free);
         } catch (error) {
           console.error('Error checking book access:', error);
           setIsFreeBook(false);

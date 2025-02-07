@@ -9,7 +9,6 @@ export function BookPartDetail() {
   const { id, partId } = useParams<{ id: string; partId: string }>();
   const navigate = useNavigate();
   const { part, loading, error } = useBookPartDetail(id, partId);
-//   console.log(part);
   const { series } = useBookSeries(id);
 
   useEffect(() => {
@@ -32,28 +31,28 @@ export function BookPartDetail() {
   }, [part, id]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 dark:text-white">Loading...</div>;
   }
 
   if (error || !part) {
     return (
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 py-12">
           <div className="flex justify-between items-center mb-8">
             <button
               onClick={() => navigate(`/book/${id}/books`)}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
             >
               <ArrowLeft className="w-5 h-5" />
               Back to Series
             </button>
           </div>
-          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Part Not Found</h1>
-            <p className="text-gray-600 mb-6">This part doesn't exist or is not available yet.</p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Part Not Found</h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">This part doesn't exist or is not available yet.</p>
             <button
               onClick={() => navigate(`/book/${id}/books`)}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
             >
               Return to Series
             </button>
@@ -63,12 +62,10 @@ export function BookPartDetail() {
     );
   }
 
+//   const currentPartIndex = series.findIndex(p => p.id === partId) + 2;
   const currentPartIndex = part.part_id;
-//   console.log(series);
   const hasNextPart = currentPartIndex < series.length;
-//   console.log(currentPartIndex);
-//   console.log(series.length);
-  const hasPreviousPart = currentPartIndex > 1;
+  const hasPreviousPart = currentPartIndex > 0;
 
   const readFreeBooks = JSON.parse(localStorage.getItem('readFreeBooks') || '[]');
   const showRegistrationPrompt = !authService.isAuthenticated() &&
@@ -76,36 +73,36 @@ export function BookPartDetail() {
     !localStorage.getItem('registrationPromptShown');
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="flex justify-between items-center mb-8">
           <button
             onClick={() => navigate(`/book/${id}/books`)}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Series
           </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold mb-6">{part.title_part}</h1>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">{part.title_part}</h1>
 
-          <div className="prose max-w-none mb-8">
+          <div className="prose dark:prose-invert max-w-none mb-8">
             {part.text_part}
           </div>
 
           {showRegistrationPrompt && (
-            <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-6 mb-8">
-              <h3 className="text-lg font-semibold text-indigo-900 mb-2">
+            <div className="bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-700 rounded-lg p-6 mb-8">
+              <h3 className="text-lg font-semibold text-indigo-900 dark:text-indigo-100 mb-2">
                 You've completed both free books!
               </h3>
-              <p className="text-indigo-700 mb-4">
+              <p className="text-indigo-700 dark:text-indigo-300 mb-4">
                 Register now to access our full library and keep track of your reading progress.
               </p>
               <button
                 onClick={() => navigate('/register')}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
               >
                 Register Now
               </button>
@@ -115,8 +112,8 @@ export function BookPartDetail() {
           <div className="flex justify-between">
             {hasPreviousPart && (
               <button
-                onClick={() => navigate(`/book/${id}/books/${Number(partId) - 1}`)}
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+                onClick={() => navigate(`/book/${id}/books/${Number(currentPartIndex - 1)}`)}
+                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
               >
                 <ArrowLeft className="w-5 h-5" />
                 Previous Part
@@ -124,8 +121,8 @@ export function BookPartDetail() {
             )}
             {hasNextPart && (
               <button
-                onClick={() => navigate(`/book/${id}/books/${Number(partId) + 1}`)}
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 ml-auto"
+                onClick={() => navigate(`/book/${id}/books/${Number(currentPartIndex + 1)}`)}
+                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ml-auto"
               >
                 Next Part
                 <ArrowRight className="w-5 h-5" />

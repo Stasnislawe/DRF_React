@@ -28,33 +28,33 @@ export function BookAuthors() {
   }, [id]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Загрузка...</div>;
+    return <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 dark:text-white">Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <button
           onClick={() => navigate(`/book/${id}/books`)}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8"
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 mb-8"
         >
           <ArrowLeft className="w-5 h-5" />
           Назад к списку частей
         </button>
 
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Authors</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200 mb-8">Authors</h1>
 
         <div className="grid gap-8 md:grid-cols-2">
           {authors.map((author) => (
-            <div key={author.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div key={author.id} className="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden">
               <img
                 src={author.photo}
                 alt={author.name}
                 className="w-full h-48 object-cover"
               />
               <div className="p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">{author.name}</h2>
-                <p className="text-gray-600">{author.bio}</p>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">{author.name}</h2>
+                <p className="text-gray-600 dark:text-gray-300">{author.bio}</p>
               </div>
             </div>
           ))}

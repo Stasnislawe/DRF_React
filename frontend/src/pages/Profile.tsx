@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Book } from '../types/book';
 import { getBooks, getBookSeries } from '../api/books';
-import { BookOpen, ArrowLeft, Percent, LogOut, User, Moon, Sun } from 'lucide-react';
+import { BookOpen, ArrowLeft, LogOut, User, Moon, Sun } from 'lucide-react';
 import { authService } from '../services/auth';
 import { useTheme } from '../context/ThemeContext';
 
@@ -144,10 +144,18 @@ export function Profile() {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-black/50" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center text-white">
-                      <Percent className="w-8 h-8 mx-auto mb-2" />
-                      <span className="text-2xl font-bold">{Math.round(progress)}%</span>
+                  <div className="absolute inset-0 flex items-end mb-1 justify-center">
+                    <div className="w-full px-6">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-white font-medium">Progress</span>
+                        <span className="text-white font-bold">{Math.round(progress)}%</span>
+                      </div>
+                      <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-green-500 rounded-full transition-all duration-300"
+                          style={{ width: `${progress}%` }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

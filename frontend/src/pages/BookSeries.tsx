@@ -11,14 +11,7 @@ export function BookSeries() {
 //   console.log(useBookSeries(id));
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin mr-2">
-          <BookOpen className="w-6 h-6" />
-        </div>
-        <span>Loading series...</span>
-      </div>
-    );
+    return <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 dark:text-white">Loading...</div>;
   }
 
   if (error) {
@@ -35,17 +28,17 @@ export function BookSeries() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <button
           onClick={() => navigate(`/`)}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8"
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
         >
           <ArrowLeft className="w-5 h-5" />
           Back
         </button>
 
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
           {series.map((part) => {
             const isRead = readParts.includes(part.part_id);
             const accessible = isPartAccessible(part.part_id);
@@ -54,14 +47,14 @@ export function BookSeries() {
               <div
                 key={part.part_id}
                 onClick={() => accessible && navigate(`/book/${id}/books/${part.part_id}`)}
-                className={`p-6 border-b ${accessible ? 'cursor-pointer hover:bg-gray-50' : 'opacity-50'} transition-colors`}
+                className={`p-6 border-b ${accessible ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-950' : 'opacity-50'} transition-colors`}
               >
                 <div className="flex justify-between items-center">
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                       {part.title_part}
                     </h2>
-                    <p className="text-gray-600">Part {part.part_id}</p>
+                    <p className="text-gray-600 dark:text-gray-200">Part {part.part_id}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     {isRead && <CheckCircle className="w-5 h-5 text-green-500" />}
