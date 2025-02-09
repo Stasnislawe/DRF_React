@@ -12,6 +12,7 @@ export interface Book {
 export interface BookPart {
   id: number;
   title_part: string;
+  image_part: string;
   text_part: string;
   part_number: number;
   page_count: number;
