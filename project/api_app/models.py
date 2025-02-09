@@ -31,6 +31,7 @@ class Book(models.Model):
 
 class BookPart(models.Model):
     title_part = models.CharField(max_length=120, verbose_name='Название части')
+    image_part = models.ImageField(upload_to='parts/', verbose_name='Изображение части', null=True)
     text_part = models.TextField(verbose_name='Содержание')
     part_number = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Часть книги')
     page_count = models.IntegerField(verbose_name='Количество страниц')
