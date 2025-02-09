@@ -27,38 +27,70 @@ export function BookSeries() {
     return readParts.includes((partNumber - 1).toString());
   };
 
-  return (
+    return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <button
-          onClick={() => navigate(`/`)}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+          onClick={() => navigate('/')}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white mb-8"
         >
           <ArrowLeft className="w-5 h-5" />
           Back
         </button>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {series.map((part) => {
             const isRead = readParts.includes(part.part_id);
             const accessible = isPartAccessible(part.part_id);
 
             return (
               <div
-                key={part.part_id}
+                key={part.id}
                 onClick={() => accessible && navigate(`/book/${id}/books/${part.part_id}`)}
-                className={`p-6 border-b ${accessible ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-950' : 'opacity-50'} transition-colors`}
+                className={`
+                  relative aspect-square rounded-xl overflow-hidden shadow-lg
+                  ${accessible ? 'cursor-pointer transform hover:scale-105 transition-transform' : 'cursor-not-allowed'}
+                `}
               >
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                      {part.title_part}
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-200">Part {part.part_id}</p>
+                {/* Background Image */}
+                <div className="absolute inset-0">
+                  <img
+                    src={part.image_part || "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800&auto=format&fit=crop"}
+                    alt={part.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+                </div>
+
+                {/* Blur Overlay for Locked Parts */}
+                {!accessible && (
+                  <div className="absolute inset-0 backdrop-blur-md bg-black/30 flex items-center justify-center">
+                    <Lock className="w-20 h-20 text-white/80" />
                   </div>
-                  <div className="flex items-center gap-2">
-                    {isRead && <CheckCircle className="w-5 h-5 text-green-500" />}
-                    {!accessible && <Lock className="w-5 h-5 text-gray-400" />}
+                )}
+
+                {/* Content */}
+                <div className="absolute inset-0 p-6 flex flex-col justify-between">
+                  <div className="flex justify-between items-start">
+                    <h2 className="text-xl font-bold text-white">
+                      Part {part.part_id}
+                    </h2>
+                    {isRead && (
+                      <div className="bg-green-500/90 rounded-full p-1">
+                        <CheckCircle className="w-5 h-5 text-white" />
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-medium text-white mb-2">
+                      {part.title}
+                    </h3>
+                    {accessible && (
+                      <p className="text-gray-200 text-sm line-clamp-3">
+                        {part.text}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -69,3 +101,46 @@ export function BookSeries() {
     </div>
   );
 }
+
+//   return (
+//     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+//       <div className="max-w-4xl mx-auto">
+//         <button
+//           onClick={() => navigate(`/`)}
+//             className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+//         >
+//           <ArrowLeft className="w-5 h-5" />
+//           Back
+//         </button>
+//
+//         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+//           {series.map((part) => {
+//             const isRead = readParts.includes(part.part_id);
+//             const accessible = isPartAccessible(part.part_id);
+//
+//             return (
+//               <div
+//                 key={part.part_id}
+//                 onClick={() => accessible && navigate(`/book/${id}/books/${part.part_id}`)}
+//                 className={`p-6 border-b ${accessible ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-950' : 'opacity-50'} transition-colors`}
+//               >
+//                 <div className="flex justify-between items-center">
+//                   <div>
+//                     <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+//                       {part.title_part}
+//                     </h2>
+//                     <p className="text-gray-600 dark:text-gray-200">Part {part.part_id}</p>
+//                   </div>
+//                   <div className="flex items-center gap-2">
+//                     {isRead && <CheckCircle className="w-5 h-5 text-green-500" />}
+//                     {!accessible && <Lock className="w-5 h-5 text-gray-400" />}
+//                   </div>
+//                 </div>
+//               </div>
+//             );
+//           })}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
