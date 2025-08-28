@@ -1,4 +1,3 @@
-from django.http import Http404
 from rest_framework.permissions import IsAuthenticated
 from .models import Book, BookPart, Author
 from .serializer import BookSerializer, BookPartSerializer, AuthorSerializer, UserSerializer
@@ -9,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class Logout(APIView):
+    """Вью выхода"""
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
@@ -22,7 +22,7 @@ class Logout(APIView):
 
 
 class RegisterView(APIView):
-
+    """Вью регистрации"""
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -31,6 +31,7 @@ class RegisterView(APIView):
 
 
 class AuthorSerializerView(viewsets.ModelViewSet):
+    """Вью вывода автора книги"""
     serializer_class = AuthorSerializer
 
     def get_queryset(self):
@@ -39,6 +40,7 @@ class AuthorSerializerView(viewsets.ModelViewSet):
 
 
 class BookPartSerializerView(viewsets.ModelViewSet):
+    """Вью вывода частей книги"""
     # permission_classes = (IsAuthenticated,)
     serializer_class = BookPartSerializer
     queryset = BookPart.objects.all()
@@ -50,6 +52,7 @@ class BookPartSerializerView(viewsets.ModelViewSet):
 
 
 class BookFreeDetailSerializerView(viewsets.ModelViewSet):
+    """Вью вывода всех бесплатных моделей Book (DRF)"""
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
@@ -64,11 +67,10 @@ class BookFreeDetailSerializerView(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(book)
         return Response(serializer.data)
-        # return Response(f'{book.book_free}')
 
 
-# Вью для DRF --> вывод всех объектов модели Book
 class BookSerializerView(generics.ListAPIView):
+    """Вьюха вывода всех объектов модели Book (DRF)"""
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
@@ -81,14 +83,6 @@ class BookSerializerView(generics.ListAPIView):
             return Book.objects.filter(book_free=False)
         else:
             return Book.objects.all()
-
-    # def get_queryset(self):
-    #     if self.request.path == '/book/True/':
-    #         # book_free = self.kwargs['book_free']
-    #         return Book.objects.filter(book_free=True)
-    #     elif self.request.path == 'book/False/':
-    #         return Book.objects.filter(book_free=False)
-    #     return self.queryset.all()
 
     def create(self, request, *args, **kwargs):
         if self.action == 'create':
