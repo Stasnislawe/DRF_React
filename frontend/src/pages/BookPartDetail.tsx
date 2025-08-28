@@ -31,7 +31,7 @@ export function BookPartDetail() {
   }, [part, id]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 dark:text-white">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 dark:text-white">Загрузка...</div>;
   }
 
   if (error || !part) {
@@ -44,17 +44,17 @@ export function BookPartDetail() {
               className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
             >
               <ArrowLeft className="w-5 h-5" />
-              Back to Series
+              Назад к списку частей
             </button>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Part Not Found</h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">This part doesn't exist or is not available yet.</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Часть книги не найдена</h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">Эта часть не существует или пока недоступна.</p>
             <button
               onClick={() => navigate(`/book/${id}/books`)}
               className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
             >
-              Return to Series
+              Назад к списку частей
             </button>
           </div>
         </div>
@@ -81,7 +81,7 @@ export function BookPartDetail() {
             className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
           >
             <ArrowLeft className="w-5 h-5" />
-            Back to Series
+              Назад к списку частей
           </button>
         </div>
 
@@ -95,16 +95,15 @@ export function BookPartDetail() {
           {showRegistrationPrompt && (
             <div className="bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-700 rounded-lg p-6 mb-8">
               <h3 className="text-lg font-semibold text-indigo-900 dark:text-indigo-100 mb-2">
-                You've completed both free books!
+                Вы прочитали обе бесплатные книги!
               </h3>
               <p className="text-indigo-700 dark:text-indigo-300 mb-4">
-                Register now to access our full library and keep track of your reading progress.
-              </p>
+                Зарегистрируйтесь прямо сейчас, чтобы получить доступ к нашей полной библиотеке и следить за своим прогрессом в чтении.              </p>
               <button
                 onClick={() => navigate('/register')}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
               >
-                Register Now
+                Зарегестрироваться сейчас
               </button>
             </div>
           )}
@@ -116,7 +115,7 @@ export function BookPartDetail() {
                 className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
               >
                 <ArrowLeft className="w-5 h-5" />
-                Previous Part
+                Предыдущая часть книги
               </button>
             )}
             {hasNextPart && (
@@ -124,7 +123,7 @@ export function BookPartDetail() {
                 onClick={() => navigate(`/book/${id}/books/${Number(currentPartIndex + 1)}`)}
                 className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white ml-auto"
               >
-                Next Part
+                Следующая часть книги
                 <ArrowRight className="w-5 h-5" />
               </button>
             )}

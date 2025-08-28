@@ -54,7 +54,7 @@ export function BookList() {
         <div className="animate-spin mr-2">
           <BookOpen className="w-6 h-6" />
         </div>
-        <span>Loading books...</span>
+        <span>Загрузка книг...</span>
       </div>
     );
   }
@@ -71,13 +71,13 @@ export function BookList() {
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Library</h1>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Библиотека</h1>
           {isAuthenticated && (
             <button
               onClick={() => navigate('/profile')}
               className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors dark:bg-indigo-500 dark:hover:bg-indigo-600"
             >
-              My Progress
+              Мой прогресс
             </button>
           )}
         </div>
@@ -96,7 +96,7 @@ export function BookList() {
               </div>
               <div className="relative flex justify-center">
                 <span className="px-3 bg-gray-100 dark:bg-gray-900 text-gray-500 dark:text-gray-400 text-lg">
-                  Read Books
+                  Прочитанные книги
                 </span>
               </div>
             </div>

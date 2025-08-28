@@ -35,7 +35,7 @@ export function BookSeries() {
           className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white mb-8"
         >
           <ArrowLeft className="w-5 h-5" />
-          Back
+          Назад
         </button>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -101,46 +101,3 @@ export function BookSeries() {
     </div>
   );
 }
-
-//   return (
-//     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-//       <div className="max-w-4xl mx-auto">
-//         <button
-//           onClick={() => navigate(`/`)}
-//             className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-//         >
-//           <ArrowLeft className="w-5 h-5" />
-//           Back
-//         </button>
-//
-//         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-//           {series.map((part) => {
-//             const isRead = readParts.includes(part.part_id);
-//             const accessible = isPartAccessible(part.part_id);
-//
-//             return (
-//               <div
-//                 key={part.part_id}
-//                 onClick={() => accessible && navigate(`/book/${id}/books/${part.part_id}`)}
-//                 className={`p-6 border-b ${accessible ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-950' : 'opacity-50'} transition-colors`}
-//               >
-//                 <div className="flex justify-between items-center">
-//                   <div>
-//                     <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-//                       {part.title_part}
-//                     </h2>
-//                     <p className="text-gray-600 dark:text-gray-200">Part {part.part_id}</p>
-//                   </div>
-//                   <div className="flex items-center gap-2">
-//                     {isRead && <CheckCircle className="w-5 h-5 text-green-500" />}
-//                     {!accessible && <Lock className="w-5 h-5 text-gray-400" />}
-//                   </div>
-//                 </div>
-//               </div>
-//             );
-//           })}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }

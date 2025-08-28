@@ -36,7 +36,7 @@ export function Login() {
             <LogIn className="h-6 w-6 text-white" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            Sign in to your account
+            Вход в аккаунт
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -48,7 +48,7 @@ export function Login() {
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="username" className="sr-only">
-                Username
+                Логин
               </label>
               <input
                 id="username"
@@ -63,7 +63,7 @@ export function Login() {
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
-                Password
+                Пароль
               </label>
               <input
                 id="password"
@@ -93,7 +93,7 @@ export function Login() {
               to="/register"
               className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
             >
-              Don't have an account? Sign up
+              Нет аккаунта? Зарегестрироваться!
             </Link>
           </div>
         </form>

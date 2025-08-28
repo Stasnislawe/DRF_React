@@ -28,7 +28,7 @@ export function BookAuthors() {
   }, [id]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 dark:text-white">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 dark:text-white">Загрузка...</div>;
   }
 
   return (

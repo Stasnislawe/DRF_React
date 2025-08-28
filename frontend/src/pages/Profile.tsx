@@ -68,7 +68,7 @@ export function Profile() {
         <div className="animate-spin mr-2">
           <BookOpen className="w-6 h-6" />
         </div>
-        <span>Loading your reading progress...</span>
+        <span>Загрузка Вашего процесса...</span>
       </div>
     );
   }
@@ -83,7 +83,7 @@ export function Profile() {
               className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
             >
               <ArrowLeft className="w-5 h-5" />
-              Back to Library
+              Назад к библиотеке
             </button>
           </div>
           <div className="flex items-center gap-4">
@@ -94,12 +94,12 @@ export function Profile() {
               {theme === 'dark' ? (
                 <>
                   <Sun className="w-5 h-5" />
-                  <span>Light Mode</span>
+                  <span>Светлый режим</span>
                 </>
               ) : (
                 <>
                   <Moon className="w-5 h-5" />
-                  <span>Dark Mode</span>
+                  <span>Тёмный режим</span>
                 </>
               )}
             </button>
@@ -108,7 +108,7 @@ export function Profile() {
               className="flex items-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20 rounded-lg transition-colors"
             >
               <LogOut className="w-5 h-5" />
-              <span>Logout</span>
+              <span>Выйти</span>
             </button>
           </div>
         </div>
@@ -118,7 +118,7 @@ export function Profile() {
             <User className="w-8 h-8 text-gray-400 dark:text-gray-500" />
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{username || 'User'}</h2>
-              <p className="text-gray-500 dark:text-gray-400">Reading Progress</p>
+              <p className="text-gray-500 dark:text-gray-400">Прогресс прочитанных книг</p>
             </div>
           </div>
         </div>
@@ -126,8 +126,8 @@ export function Profile() {
         {readBooks.length === 0 ? (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
             <BookOpen className="w-12 h-12 mx-auto text-gray-400 dark:text-gray-500 mb-4" />
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">No books read yet</h2>
-            <p className="text-gray-600 dark:text-gray-400">Start reading to track your progress!</p>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Еще не прочитано ни одной книги</h2>
+            <p className="text-gray-600 dark:text-gray-400">Начни читать книги для отслеживания прогресса!</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -147,7 +147,7 @@ export function Profile() {
                   <div className="absolute inset-0 flex items-end mb-1 justify-center">
                     <div className="w-full px-6">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-white font-medium">Progress</span>
+                        <span className="text-white font-medium">Прогресс</span>
                         <span className="text-white font-bold">{Math.round(progress)}%</span>
                       </div>
                       <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
@@ -162,7 +162,7 @@ export function Profile() {
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{book.title}</h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    {readParts} of {totalParts} parts read
+                    {readParts} из {totalParts} частей прочитано
                   </p>
                 </div>
               </div>

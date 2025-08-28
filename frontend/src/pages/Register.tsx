@@ -30,7 +30,7 @@ export function Register() {
             <UserPlus className="h-6 w-6 text-white" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
+            Создать аккаунт
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -42,7 +42,7 @@ export function Register() {
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="username" className="sr-only">
-                Username
+                Логин
               </label>
               <input
                 id="username"
@@ -57,7 +57,7 @@ export function Register() {
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
-                Password
+                Пароль
               </label>
               <input
                 id="password"
@@ -87,7 +87,7 @@ export function Register() {
               to="/login"
               className="font-medium text-indigo-600 hover:text-indigo-500"
             >
-              Already have an account? Sign in
+              Уже есть аккаунт? Войти!
             </Link>
           </div>
         </form>
