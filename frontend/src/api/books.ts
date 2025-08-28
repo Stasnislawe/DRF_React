@@ -3,15 +3,6 @@ import { USE_MOCK_DATA, RANDOM_AUTHORS_LIMIT, API_URL } from '../config';
 import { mockBooks, mockBookSeries, mockAuthors } from '../mocks/books';
 import { authService } from '../services/auth';
 
-// Helper function to get headers with auth token
-const getHeaders = () => {
-  const token = authService.getAccessToken();
-  return {
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
-};
-
 export async function getBooks(): Promise<Book[]> {
   if (USE_MOCK_DATA) {
     return mockBooks;
@@ -19,20 +10,28 @@ export async function getBooks(): Promise<Book[]> {
 
   if (!authService.isAuthenticated()) {
     // For unauthenticated users, fetch only free books
-    const freeBooks = await Promise.all([
-      fetch(`${API_URL}/book/True/3/`).then(res => res.json()),
-      fetch(`${API_URL}/book/True/2/`).then(res => res.json())
-    ]);
-    return freeBooks;
+    try {
+      const [freeBooks1, freeBooks2] = await Promise.all([
+        fetch(`${API_URL}/book/True/3/`).then(res => res.json()),
+        fetch(`${API_URL}/book/True/2/`).then(res => res.json())
+      ]);
+      return [...freeBooks1, ...freeBooks2];
+    } catch (error) {
+      console.error('Error fetching free books:', error);
+      throw new Error('Failed to fetch free books');
+    }
   }
 
-  const response = await fetch(`${API_URL}/book/`, {
-    headers: getHeaders(),
-  });
-  if (!response.ok) {
-    throw new Error('Failed to fetch books');
+  try {
+    const response = await authService.authenticatedFetch(`${API_URL}/book/`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch books');
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching books:', error);
+    throw error;
   }
-  return response.json();
 }
 
 export async function getBook(id: string): Promise<Book> {
@@ -40,28 +39,30 @@ export async function getBook(id: string): Promise<Book> {
     return mockBooks[parseInt(id)];
   }
 
-//   const url = !authService.isAuthenticated()
-//     ? `${API_URL}/book/True/${id}`
-//     : `${API_URL}/book/False/${id}`;
-
-//   const response = await fetch(url, {
-//     headers: getHeaders(),
-//   });
   if (!authService.isAuthenticated()) {
     // For unauthenticated users, fetch only free books
-    const freeBook = await Promise.all([
-      fetch(`${API_URL}/book/True/${id}/`).then(res => res.json()),
-    ]);
-    return freeBook;
+    try {
+      const response = await fetch(`${API_URL}/book/True/${id}/`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch free book');
+      }
+      return response.json();
+    } catch (error) {
+      console.error('Error fetching free book:', error);
+      throw error;
+    }
   }
 
-  const response = await fetch(`${API_URL}/book/False/${id}/`, {
-    headers: getHeaders(),
-  });
-  if (!response.ok) {
-    throw new Error('Failed to fetch book');
+  try {
+    const response = await authService.authenticatedFetch(`${API_URL}/book/False/${id}/`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch book');
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching book:', error);
+    throw error;
   }
-  return response.json();
 }
 
 export async function getBookSeries(bookId: string): Promise<BookPart[]> {
@@ -69,17 +70,26 @@ export async function getBookSeries(bookId: string): Promise<BookPart[]> {
     return mockBookSeries[bookId] || [];
   }
 
-  const url = !authService.isAuthenticated()
-    ? `${API_URL}/book/${bookId}/books`
-    : `${API_URL}/book/${bookId}/books`;
+  const url = `${API_URL}/book/${bookId}/books`;
 
-  const response = await fetch(url, {
-    headers: getHeaders(),
-  });
-  if (!response.ok) {
-    throw new Error('Failed to fetch book series');
+  try {
+    if (authService.isAuthenticated()) {
+      const response = await authService.authenticatedFetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch book series');
+      }
+      return response.json();
+    } else {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch book series');
+      }
+      return response.json();
+    }
+  } catch (error) {
+    console.error('Error fetching book series:', error);
+    throw error;
   }
-  return response.json();
 }
 
 export async function getBookPart(bookId: string, partId: string): Promise<BookPart> {
@@ -92,17 +102,26 @@ export async function getBookPart(bookId: string, partId: string): Promise<BookP
     return part;
   }
 
-  const url = !authService.isAuthenticated()
-    ? `${API_URL}/book/${bookId}/books/${partId}`
-    : `${API_URL}/book/${bookId}/books/${partId}`;
+  const url = `${API_URL}/book/${bookId}/books/${partId}`;
 
-  const response = await fetch(url, {
-    headers: getHeaders(),
-  });
-  if (!response.ok) {
-    throw new Error('Failed to fetch book part');
+  try {
+    if (authService.isAuthenticated()) {
+      const response = await authService.authenticatedFetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch book part');
+      }
+      return response.json();
+    } else {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch book part');
+      }
+      return response.json();
+    }
+  } catch (error) {
+    console.error('Error fetching book part:', error);
+    throw error;
   }
-  return response.json();
 }
 
 function getRandomItems<T>(array: T[], count: number): T[] {
@@ -116,16 +135,26 @@ export async function getBookAuthors(bookId: string): Promise<Author[]> {
     return getRandomItems(authors, RANDOM_AUTHORS_LIMIT);
   }
 
-  const url = !authService.isAuthenticated()
-    ? `${API_URL}/book/${bookId}/authors`
-    : `${API_URL}/book/${bookId}/authors`;
+  const url = `${API_URL}/book/${bookId}/authors`;
 
-  const response = await fetch(url, {
-    headers: getHeaders(),
-  });
-  if (!response.ok) {
-    throw new Error('Failed to fetch book authors');
+  try {
+    if (authService.isAuthenticated()) {
+      const response = await authService.authenticatedFetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch book authors');
+      }
+      const authors = await response.json();
+      return getRandomItems(authors, RANDOM_AUTHORS_LIMIT);
+    } else {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch book authors');
+      }
+      const authors = await response.json();
+      return getRandomItems(authors, RANDOM_AUTHORS_LIMIT);
+    }
+  } catch (error) {
+    console.error('Error fetching book authors:', error);
+    throw error;
   }
-  const authors = await response.json();
-  return getRandomItems(authors, RANDOM_AUTHORS_LIMIT);
 }
