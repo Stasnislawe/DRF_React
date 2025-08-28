@@ -24,21 +24,10 @@ export function Navbar() {
           className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
         >
           <LogIn className="w-4 h-4" />
-          <span>Sign In</span>
+          <span>Войти</span>
         </button>
       )}
     </div>
   );
 }
 
-//   return (
-//     <div className="fixed top-0 right-0 m-4 z-50">
-//       <button
-//         onClick={() => navigate('/profile')}
-//         className="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-lg shadow-md hover:bg-gray-50 transition-colors"
-//       >
-//         <User className="w-4 h-4" />
-//         <span>Profile</span>
-//       </button>
-//     </div>
-//   );
