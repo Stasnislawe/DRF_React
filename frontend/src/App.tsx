@@ -11,8 +11,30 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { AuthGuard } from './components/AuthGuard';
 import { ThemeProvider } from './context/ThemeContext';
+import { useEffect } from 'react';
+import { authService } from './services/auth';
 
 export default function App() {
+  useEffect(() => {
+    // Глобальная обработка ошибок аутентификации
+    const handleAuthError = () => {
+      authService.logout();
+      window.location.href = '/login';
+    };
+
+    // Можно добавить глобальный обработчик ошибок
+    window.addEventListener('unhandledrejection', (event) => {
+      if (event.reason?.message?.includes('Token') ||
+          event.reason?.message?.includes('auth')) {
+        handleAuthError();
+      }
+    });
+
+    return () => {
+      window.removeEventListener('unhandledrejection', handleAuthError);
+    };
+  }, []);
+
   return (
     <ThemeProvider>
       <BrowserRouter>
