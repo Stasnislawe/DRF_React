@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    """Модель User"""
     username = models.CharField(max_length=150, unique=True)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
@@ -13,6 +14,7 @@ class User(AbstractUser):
 
 
 class Author(models.Model):
+    """Модель Автора для книги"""
     name = models.CharField(max_length=60, verbose_name='Имя')
     bio = models.TextField(verbose_name='Биография')
     photo = models.ImageField(upload_to='authors/%Y/%m/%d/', verbose_name='Фото')
@@ -20,6 +22,7 @@ class Author(models.Model):
 
 # Модель Книги
 class Book(models.Model):
+    """Модель Книги"""
     title = models.CharField(max_length=100, verbose_name='Название')
     added_at = models.DateTimeField(auto_now_add=True, verbose_name='Время опубликования')
     time_to_read = models.CharField(max_length=50, verbose_name='Среднее время прочтения')
@@ -30,6 +33,7 @@ class Book(models.Model):
 
 
 class BookPart(models.Model):
+    """Модель частей Книги"""
     title_part = models.CharField(max_length=120, verbose_name='Название части')
     image_part = models.ImageField(upload_to='parts/', verbose_name='Изображение части', null=True)
     text_part = models.TextField(verbose_name='Содержание')
